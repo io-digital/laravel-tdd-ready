@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
 
-use App\Http\Requests;
+use App\Http\Requests\StoreUser;
+use App\Http\Requests\UpdateUser;
 
 use App\Models\Contracts\Repositories\UserRepository;
 
@@ -22,7 +23,7 @@ class UserController extends Controller
     public function index()
     {
         $users = $this->model->paginate();
-        return view('users')->with(['items' => $users]);
+        return view('users.listing')->with(['items' => $users]);
     }
 
     /**
@@ -32,7 +33,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.form');
     }
 
     /**
@@ -41,9 +42,10 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUser $request)
     {
-        //
+        $this->model->create($request->all());
+        return redirect()->action('UserController@index');
     }
 
     /**
@@ -54,7 +56,13 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = $this->model->find($id);
+
+        if(!$user){
+            abort('404');
+        }
+
+        return view('users.detail')->with(['item' => $user]);
     }
 
     /**
@@ -65,7 +73,13 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = $this->model->find($id);
+
+        if(!$user){
+            abort('404');
+        }
+
+        return view('users.form')->with(['item' => $user]);
     }
 
     /**
@@ -75,9 +89,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUser $request, $id)
     {
-        //
+        $this->model->edit($id, $request->all());
+        return redirect()->action('UserController@index');
     }
 
     /**
@@ -88,6 +103,14 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = $this->model->find($id);
+
+        if(!$user){
+            abort('404');
+        }
+
+        $user->destroy();
+
+        return redirect()->action('UserController@index');
     }
 }
