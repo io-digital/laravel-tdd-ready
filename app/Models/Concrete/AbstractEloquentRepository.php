@@ -119,7 +119,7 @@ abstract class AbstractEloquentRepository implements RepositoryInterface
             return false;
         }
 
-        $obj->edit($attributes);
+        $obj->fill($attributes)->push();
 
         return $obj;
     }

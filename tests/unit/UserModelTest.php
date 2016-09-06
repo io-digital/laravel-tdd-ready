@@ -29,6 +29,15 @@ class UserModelTest extends TestCase
         $this->assertTrue(password_verify($this->password, $savedUser->password));
     }
 
+    public function testUserEdit()
+    {
+        $user = factory($this->repo->modelName())->create();
+        $newName = 'New Name';
+
+        $user = $this->repo->edit($user->id, ['name' => $newName]);
+        $this->assertEquals($user->name, $newName);
+    }
+
     public function testUserDelete()
     {
         $user = factory($this->repo->modelName())->create();

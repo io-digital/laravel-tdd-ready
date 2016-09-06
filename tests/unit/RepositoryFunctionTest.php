@@ -57,4 +57,14 @@ class RepositoryFunctionTest extends TestCase
     {
         $this->assertEquals($this->repo->findWhereIn('id', [$this->testUser->id])->count(), 1);
     }
+
+    public function testSimplePaginate()
+    {
+        $this->assertEquals($this->repo->simplePaginate()->count(), 1);
+    }
+
+    public function testPaginate()
+    {
+        $this->assertEquals($this->repo->paginate()->count(), 1);
+    }
 }
