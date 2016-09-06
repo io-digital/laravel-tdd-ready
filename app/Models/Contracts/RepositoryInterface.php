@@ -30,5 +30,5 @@ interface RepositoryInterface {
 
     public function edit($id, $attributes = []);
 
-    public function destroy(/*$id*/);
+    public function delete($id);
 }

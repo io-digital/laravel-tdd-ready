@@ -106,7 +106,7 @@ class UserControllerTest extends TestCase
     public function testUserDestroy(){
 
         $this->mock->shouldReceive('find')->once()->andReturnSelf();
-        $this->mock->shouldReceive('destroy')->once();
+        $this->mock->shouldReceive('delete')->once();
         $response = $this->call('DELETE', 'users/1');
         $this->assertRedirectedToAction('UserController@index');
     }

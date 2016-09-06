@@ -16,18 +16,13 @@ class UserModelTest extends TestCase
         $this->password = 'test_pass';
     }
 
-    private function _getValidUserArray(){
-
-        $newUser = factory($this->repo->modelName())->make([])->toArray();
-        $newUser['password'] = $this->password;
-        $newUser['password_confirmation'] = $newUser['password'];
-        return $newUser;
-    }
-
     public function testUserCreateModel()
     {
-        $newUser = factory($this->repo->modelName())->make([])->toArray();
-        $newUser['password'] = $this->password;
+        $newUser = factory($this->repo->modelName())->make([
+            'password' => $this->password,
+            'password_confirmation' => $this->password
+        ])->toArray();
+
         $savedUser = $this->repo->create($newUser);
 
         $this->assertNotNull($savedUser->id);
@@ -37,7 +32,7 @@ class UserModelTest extends TestCase
     public function testUserDelete()
     {
         $user = factory($this->repo->modelName())->create();
-        $user->destroy();
+        $this->repo->delete($user->id);
         $this->assertNull($user->find($user->id));
     }
 

@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-//use Illuminate\Http\Request;
-
 use App\Http\Requests\StoreUser;
 use App\Http\Requests\UpdateUser;
 
@@ -11,10 +9,15 @@ use App\Models\Contracts\Repositories\UserRepository;
 
 class UserController extends Controller
 {
+    /**
+     * Constructor: pass in the repository.
+     *
+     */
     public function __construct(UserRepository $userRepository)
     {
         $this->model = $userRepository;
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -109,7 +112,7 @@ class UserController extends Controller
             abort('404');
         }
 
-        $user->destroy();
+        $this->model->delete($id);
 
         return redirect()->action('UserController@index');
     }
