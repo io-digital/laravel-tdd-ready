@@ -5,6 +5,9 @@ use App\Models\Contracts\Repositories\UserRepository;
 
 class UserControllerTest extends TestCase
 {
+    public function __construct(){
+
+    }
     public function setUp()
     {
         parent::setUp();
@@ -40,6 +43,11 @@ class UserControllerTest extends TestCase
             'password' => 'testpass',
             'password_confirmation' => 'testpass'
         ])->toArray();
+
+        $storeUserRequestMock = Mockery::mock('App\Http\Requests\StoreUser');
+        $storeUserRequestMock->shouldReceive('all')->once()->andReturn(true);
+
+        App::instance('App\Http\Requests\StoreUser', $storeUserRequestMock);
 
         $this->mock->shouldReceive('create')->once();
         $response = $this->call('POST', 'users', $newUser);
@@ -90,6 +98,11 @@ class UserControllerTest extends TestCase
             'password' => 'testpass',
             'password_confirmation' => 'testpass'
         ])->toArray();
+
+        $updateUserRequestMock = Mockery::mock('App\Http\Requests\UpdateUser');
+        $updateUserRequestMock->shouldReceive('all')->once()->andReturn(true);
+
+        App::instance('App\Http\Requests\UpdateUser', $updateUserRequestMock);
 
         $this->mock->shouldReceive('edit')->once();
         $response = $this->call('PUT', 'users/1', $newUser);
