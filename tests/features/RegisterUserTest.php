@@ -5,7 +5,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Models\Contracts\Repositories\UserRepository;
 
-class ViewAllUsersTest extends TestCase
+class RegisterUserTest extends TestCase
 {
     use DatabaseMigrations;
 
